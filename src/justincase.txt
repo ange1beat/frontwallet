@@ -11,8 +11,16 @@ const bip32 = BIP32Factory(ecc);
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [address, setAddress] = useState('Your Address');
-  const [src20, setSrc20] = useState([]);
-  const [stamp, setStamp] = useState([]);
+  const [src20, setSrc20] = useState('SRC-20');
+  const [stamp, setStamp] = useState('SRC-721 & STAMP');
+
+  const handlesetStamp = (stamp) => {
+    setStamp(stamp)
+  };
+
+  const handlesetSrc20 = (src20) => {
+    setSrc20(src20)
+  };
 
   const handleAddress = (address) => {
     setAddress(address)
@@ -81,9 +89,9 @@ function App() {
 
   const getSrc20 = async (address) => {
     // const url2 = `https://stampchain.io/api/v2/src20/balance/${address}`
-    const url = `https://stampchain.io/api/v2/src20/balance/bc1qgeran6ygwy3hzufhgr0cv4cuajjuvxnxuftjg9`
+    const url2 = `https://stampchain.io/api/v2/src20/balance/bc1qgeran6ygwy3hzufhgr0cv4cuajjuvxnxuftjg9`
     
-    fetch(url)
+    fetch(url2)
     .then(response => {
         if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -96,7 +104,16 @@ function App() {
             tick: item.tick,
             amt: item.amt
         }))
-        setSrc20(parsedData)
+        console.log(parsedData)
+
+        let message = 'Your SRC-20:\n\n'
+        parsedData.forEach(item => {
+            message += `tick: ${item.tick} | amount: ${item.amt.replace(/\.?0+$/, '')}\n`;
+        });
+
+        const totalQuantity = parsedData.length
+        message += `\nTotal unique tokens: ${totalQuantity}`
+        handlesetSrc20(message)
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -117,13 +134,21 @@ function App() {
     })
     .then(data => {
         const parsedData = data.data
-        .filter((item) => item.stamp = 'SRC-721')
         .map(item => ({
             stamp: item.stamp,
             balance: item.balance,
             stamp_url: item.stamp_url
         }))
-        setStamp(parsedData)
+        console.log(parsedData)
+
+        let message = 'Your SRC-20 & STAMPS:\n\n'
+        parsedData.forEach(item => {
+            message += `id: ${item.stamp} | amount: ${item.balance} | [img](${item.stamp_url})\n`;
+        });
+
+        const totalQuantity = parsedData.length
+        message += `\nTotal NFTs: ${totalQuantity}`
+        handlesetStamp(message)
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -137,7 +162,7 @@ function App() {
           type="text"
           value={inputValue}
           onChange={handleChange}
-          placeholder="Enter mnemonic 12 words..."
+          placeholder="Enter mnemonic..."
           className="w-full p-2 border border-gray-300 rounded-md"
         />
         <button
@@ -147,24 +172,9 @@ function App() {
           CHECK
         </button>
         <div className="mt-6 space-y-2">
-          <p className="break-words font-extrabold">{address}</p>
-          <p className='font-extrabold'>SRC-20</p>
-          <div>
-            {src20.map((item, index) => (
-              <div key={index} className="bg-gray-400 p-2 my-2 rounded">
-                {item.tick}: {item.amt.replace(/\.0+$/, '').replace(/(\.\d*[1-9])0+$/, '$1')}
-              </div>
-            ))}
-          </div>
-          <p className='font-extrabold'>SRC-721</p>
-          <div>
-            {stamp.map((item, index) => (
-              <div key={index} className="bg-gray-400 p-2 my-2 rounded">
-                <img src={item.stamp_url}></img>
-                {item.stamp}: {item.balance}
-              </div>
-            ))}
-          </div>
+          <p className="break-words">{address}</p>
+          <p className="break-words">{src20}</p>
+          <p className="break-words">{stamp}</p>
         </div>
       </div>
     </div>
