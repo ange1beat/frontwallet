@@ -328,7 +328,7 @@ function App() {
   }
 
   const getBtcBalance = async (address) => {
-
+ 
      const url = `https://api.blockcypher.com/v1/btc/main/addrs/${address}/balance`;
 
     fetch(url)
