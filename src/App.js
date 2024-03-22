@@ -279,7 +279,7 @@ function App() {
   
 
   const getSrc20 = async (address) => {
-    const url2 = `https://stampchain.io/api/v2/src20/balance/${address}`
+    const url = `https://stampchain.io/api/v2/src20/balance/${address}`
 
     
     fetch(url)
