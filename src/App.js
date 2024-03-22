@@ -279,8 +279,8 @@ function App() {
   
 
   const getSrc20 = async (address) => {
-    // const url2 = `https://stampchain.io/api/v2/src20/balance/${address}`
-    const url = `https://stampchain.io/api/v2/src20/balance/bc1qgeran6ygwy3hzufhgr0cv4cuajjuvxnxuftjg9`
+    const url2 = `https://stampchain.io/api/v2/src20/balance/${address}`
+
     
     fetch(url)
     .then(response => {
@@ -304,8 +304,7 @@ function App() {
   }
 
   const getStamp = async (address) => {
-      // const url = `https://stampchain.io/api/v2/stamps/balance/${address}`
-      const url = `https://stampchain.io/api/v2/stamps/balance/bc1qgeran6ygwy3hzufhgr0cv4cuajjuvxnxuftjg9`
+      const url = `https://stampchain.io/api/v2/stamps/balance/${address}`
 
     fetch(url)
     .then(response => {
@@ -330,8 +329,7 @@ function App() {
 
   const getBtcBalance = async (address) => {
 
-    // const url = `https://api.blockcypher.com/v1/btc/main/addrs/${address}/balance`;
-    const url = `https://api.blockcypher.com/v1/btc/main/addrs/bc1qgeran6ygwy3hzufhgr0cv4cuajjuvxnxuftjg9/balance`
+     const url = `https://api.blockcypher.com/v1/btc/main/addrs/${address}/balance`;
 
     fetch(url)
       .then(response => response.json())
